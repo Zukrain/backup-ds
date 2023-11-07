@@ -9,9 +9,9 @@ DataStorage (далее DS) - хранилище данных расположе
 Всё действия выполняются от пользователя root.
 
 1. Создать ssh-ключ с именем `id_rsa_ds` и загрузить публичную часть в DS через панель управления:
-
+```
     ssh-keygen -f id_rsa_ds -P ''
-
+```
 2. Запустить скрипт `install-env.sh`, он создаст необходимое окружение для работы. Внимание, разбитый файл сохраняется в каталоге `/root/.ds-backup/split_files`.
 
 3. Указать в файле `/root/.ds-backup/backup.list` список каталогов с полным путем. Это листинг каталогов, который будет сохранен в tar-бекапе.
@@ -21,12 +21,11 @@ DataStorage (далее DS) - хранилище данных расположе
 5. Скрипты `worker-backup.sh`, `clean-backup.sh`, `full-backup.sh` поместить в `/usr/local/sbin/`.
 
 6. Добавить в cron задание для запуска `worker-backup.sh`, пример:
-
-    # Создание бекапа в DataStorage
-    # LOGIN - логин услуги DataStorage
+```
+    # Создание бекапа в DataStorage. LOGIN - логин услуги DataStorage
     LOGIN='u123'
     0 2 * * *   sleep $(shuf -i 0-240 -n 1)m && /usr/local/sbin/worker-backup.sh $LOGIN 14 1>/var/log/backup-worker.log 2>&1
-
+```
 ## Зависимости
 Для работы скриптов требуется поставить пакеты:
 
