@@ -34,3 +34,27 @@ DataStorage (далее DS) - хранилище данных расположе
     - mawk
     - coreutils (команда csplit)
 
+## Восстановление файлов из бекапа
+Файл разбит на чанки по 2gb, поэтому перед восстановлением их нужно объединить.
+Команды:
+```
+    # листинг
+    ls -1 backup/
+    user-20231107-full.tar.lzo.split_aa
+    user-20231107-full.tar.lzo.split_ab
+    user-20231107-full.tar.lzo.split_ac
+    user-20231107-full.tar.lzo.split_ad
+
+    # объединение скачанных файлов
+    for F in $(ls -1 | sort); do cat "$F" >> full.tar.lzop; done
+
+    # распаковка
+    mkdir RESTORE
+    cat full.tar.lzop | lzop -d | tar -xf - -C RESTORE/
+
+    # листинг
+    ls -ls RESTORE/
+    итого 8
+    4 drwxr-xr-x 77 root root 4096 Nov  7 18:15 etc
+    4 drwxr-xr-x  4 root root 4096 Nov  7 18:14 home
+```
